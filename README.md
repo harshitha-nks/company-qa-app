@@ -98,3 +98,19 @@ In frontend/src/App.tsx, change all http://localhost:3000 to your deployed backe
 - Streaming: Server-Sent Events (SSE)
 - Multi-Step Reasoning: Intent Analysis + Refined Prompting
 - Docker: For full containerized deployment
+
+## Architecture Decisions & Third-Party Services
+
+### Backend (NestJS)
+- **NestJS** was chosen for its modular, testable, and scalable architecture aligned with enterprise-grade APIs.
+- **TypeORM** is used for database integration due to its support for decorators, entities, and NestJS integration.
+- **OpenAI-compatible API (Groq)**: Provides access to `llama3-70b` model using OpenAI-compatible interfaces, enabling high-performance inference via a familiar API.
+  
+### Frontend (React)
+- **React** provides SPA interactivity with fast rendering.
+- Fetches question history on initial load and streams answers via SSE.
+- No extra state management libraries were used to maintain simplicity.
+
+### Deployment
+- **Backend** is deployed via **Railway** with Docker.
+- **Frontend** is deployed using **Vercel**, which handles CI/CD and automatic builds from Git.
