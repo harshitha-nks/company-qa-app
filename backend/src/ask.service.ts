@@ -27,7 +27,7 @@ export class AskService {
     const response = await this.openai.chat.completions.create({
       model: 'llama3-70b-8192',
       messages: [
-        { role: 'system', content: 'You are an expert on B2B companies.' },
+        { role: 'system', content: 'You are an expert in knowing about the functionalities of companies.' },
         { role: 'user', content: fullPrompt },
       ],
     });
@@ -65,7 +65,7 @@ export class AskService {
 
         const analysis = analysisResponse.choices?.[0]?.message?.content ?? '';
 
-        const prompt = `Based on the analysis "${analysis}", generate a refined, clear, and accurate answer to the original question: "${question}" for the domain ${domain}.`;
+        const prompt = `Based on the analysis "${analysis}", generate a clear, and accurate answer to the original question: "${question}" for the domain ${domain}.`;
 
         const stream = await this.openai.chat.completions.create({
           model: 'llama3-70b-8192',
@@ -73,7 +73,7 @@ export class AskService {
           messages: [
             {
               role: 'system',
-              content: 'You are an assistant giving detailed company insights.',
+              content: 'You are an assistant in giving detailed company insights.',
             },
             { role: 'user', content: prompt },
           ],
