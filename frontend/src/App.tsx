@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/ask/history')
+      .get('https://company-qa-app-production.up.railway.app/ask/history')
       .then((res) => setHistory(res.data))
       .catch((err) => console.error('Failed to fetch history:', err));
   }, []);
@@ -30,7 +30,7 @@ function App() {
     setAnswer('');
 
     try {
-      const response = await fetch('http://localhost:3000/ask/stream', {
+      const response = await fetch('https://company-qa-app-production.up.railway.app/ask/stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question, domain }),
@@ -60,8 +60,7 @@ function App() {
         }
       }
 
-      // After streaming completes, re-fetch history
-      const updatedHistory = await axios.get('http://localhost:3000/ask/history');
+      const updatedHistory = await axios.get('https://company-qa-app-production.up.railway.app/ask/history');
       setHistory(updatedHistory.data);
     } catch (err) {
       console.error('Streaming error:', err);
