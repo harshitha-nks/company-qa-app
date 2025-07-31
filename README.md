@@ -1,6 +1,6 @@
 # Company QA App
 
-Ask domain-specific questions (like “Is redcar.io a B2B company?”) and get AI-generated answers using Groq's LLaMA 3 model — with streaming and multi-step reasoning built-in.
+Ask domain-specific questions (like “Is redcar.io a B2B company?”) and get AI-generated answers using Groq's LLaMA 3 model - with streaming and multi-step reasoning built-in.
 
 ---
 
@@ -55,7 +55,7 @@ npm start
 
 ```
 environment:
-  - GROQ_API_KEY=your_groq_api_key_here
+  - GROQ_API_KEY=your_groq_api_key
 ```
 ### 2. Build and run
 ```
@@ -81,7 +81,7 @@ You can deploy the frontend and backend publicly:
 - Create a new web service from GitHub.
 - Set the root to backend/, add environment variable:
 ```
-GROQ_API_KEY=your_actual_key
+GROQ_API_KEY=your_groq_api_key
 ```
 - On Railway, backend will auto-deploy to:
 ```
@@ -94,7 +94,7 @@ In frontend/src/App.tsx, change all http://localhost:3000 to your deployed backe
 ## Tech Stack
 - Frontend: React, TypeScript, Axios
 - Backend: NestJS, TypeORM, SQLite
-- LLM: Groq (llama3-70b-8192) via OpenAI-compatible API
+- LLM: Groq (llama3-70b-8192)
 - Streaming: Server-Sent Events (SSE)
 - Multi-Step Reasoning: Intent Analysis + Refined Prompting
 - Docker: For full containerized deployment
