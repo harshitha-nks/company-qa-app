@@ -1,5 +1,6 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Sse, MessageEvent } from '@nestjs/common';
 import { AskService } from './ask.service';
+import { Observable } from 'rxjs';
 
 @Controller('ask')
 export class AskController {
@@ -11,8 +12,14 @@ export class AskController {
     return this.askService.getLLMResponse(question, domain);
   }
 
-   @Get('history')
+  @Get('history')
   async history() {
     return this.askService.getHistory();
+  }
+
+  @Post('stream')
+  @Sse()
+  stream(@Body() body: { question: string; domain: string }): Observable<MessageEvent> {
+    return this.askService.streamLLMResponse(body.question, body.domain);
   }
 }

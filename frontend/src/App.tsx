@@ -18,7 +18,8 @@ function App() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/ask/history')
+    axios
+      .get('http://localhost:3000/ask/history')
       .then((res) => setHistory(res.data))
       .catch((err) => console.error('Failed to fetch history:', err));
   }, []);
@@ -29,17 +30,42 @@ function App() {
     setAnswer('');
 
     try {
-      const res = await axios.post('http://localhost:3000/ask', {
-        domain,
-        question
+      const response = await fetch('http://localhost:3000/ask/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, domain }),
       });
 
-      setAnswer(res.data.answer);
+      if (!response.body) {
+        throw new Error('No response body received.');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+
+      let resultText = '';
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk
+          .split('\n')
+          .filter((line) => line.startsWith('data:'));
+
+        for (const line of lines) {
+          const token = line.replace(/^data:\s*/, '');
+          resultText += token;
+          setAnswer((prev) => prev + token + ' ');
+        }
+      }
+
+      // After streaming completes, re-fetch history
       const updatedHistory = await axios.get('http://localhost:3000/ask/history');
       setHistory(updatedHistory.data);
     } catch (err) {
-      setAnswer('Error getting response. See console.');
-      console.error(err);
+      console.error('Streaming error:', err);
+      setAnswer('Error streaming response. Check console.');
     } finally {
       setLoading(false);
     }
