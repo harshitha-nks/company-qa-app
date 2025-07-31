@@ -66,6 +66,30 @@ docker-compose up --build
 - Backend API: http://localhost:3000
 
 ---
+## Deploy the App (Public Access)
+
+You can deploy the frontend and backend publicly:
+
+### Frontend (React) on Vercel
+- Push your project to GitHub.
+- Go to https://vercel.com.
+- Import your repo, set the root directory to frontend/.
+- Vercel will auto-detect and deploy it at https://your-app.vercel.app.
+
+## Backend (NestJS) on Railway or Render
+- Go to https://railway.app or https://render.com.
+- Create a new web service from GitHub.
+- Set the root to backend/, add environment variable:
+```
+GROQ_API_KEY=your_actual_key
+```
+- On Railway, backend will auto-deploy to:
+```
+https://your-backend.up.railway.app
+````
+- Finally Connect Frontend to Backend: 
+In frontend/src/App.tsx, change all http://localhost:3000 to your deployed backend URL.
+--- 
 
 ## Tech Stack
 - Frontend: React, TypeScript, Axios
